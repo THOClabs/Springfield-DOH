@@ -1,0 +1,41 @@
+{
+  "name": "springfield-code",
+  "version": "1.0.0",
+  "description": "Simpsons-themed vibe coding environment for Claude Code - gamifies development planning through character agents culminating in Ralph Wiggum persistent iteration loops",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src/**/*.ts"
+  },
+  "keywords": [
+    "claude-code",
+    "plugin",
+    "simpsons",
+    "development-planning",
+    "vibe-coding"
+  ],
+  "author": {
+    "name": "THOC-LABS",
+    "email": "contact@thoc-labs.ai"
+  },
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0",
+    "eslint": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0"
+  },
+  "claudePluginDependencies": [
+    "ralph-wiggum"
+  ],
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
