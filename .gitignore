@@ -1,0 +1,51 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Build output
+dist/
+*.js
+*.js.map
+*.d.ts
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Springfield runtime (this gets created in target projects, not here)
+# .springfield/
+
+# Keep these build planning files
+!PROMPT.md
+!IMPLEMENTATION_PLAN.md
+!CLAUDE.md
+!SPRINGFIELD_SPEC.md
+!TROUBLESHOOTING.md
+!BLOCKERS.md
+!PROGRESS_LOG.md
+!README.md
