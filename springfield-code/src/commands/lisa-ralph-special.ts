@@ -11,63 +11,12 @@ import {
   DEFAULT_COMPLETION_PROMISE,
   DEFAULT_MAX_ITERATIONS,
 } from "../constants.js";
-import { setRalphInitiated } from "../hooks/ralph-gate.js";
+import { requestRalphAuthorization } from "../hooks/ralph-gate.js";
+import { verifyPrerequisites, type PrerequisiteResult } from "../utils/prerequisites.js";
+import { lisaRalphLogger as logger } from "../utils/logger.js";
+import type { CommandContext } from "../types.js";
 
-interface CommandContext {
-  cwd?: string;
-}
-
-interface VerificationResult {
-  ready: boolean;
-  missing: string[];
-  present: string[];
-  context: string[];
-}
-
-/**
- * Verify all prerequisites are met for Ralph execution
- */
-function verifyPrerequisites(springfieldDir: string): VerificationResult {
-  const result: VerificationResult = {
-    ready: true,
-    missing: [],
-    present: [],
-    context: [],
-  };
-
-  // Check required files
-  for (const file of REQUIRED_FILES) {
-    const filePath = path.join(springfieldDir, file);
-    if (fs.existsSync(filePath)) {
-      const content = fs.readFileSync(filePath, "utf-8");
-      // Check if file has substantive content (not just template)
-      if (content.length > 200 && !content.includes("[One paragraph") && !content.includes("[What")) {
-        result.present.push(file);
-      } else {
-        result.missing.push(`${file} (incomplete - still has template placeholders)`);
-        result.ready = false;
-      }
-    } else {
-      result.missing.push(file);
-      result.ready = false;
-    }
-  }
-
-  // Find optional context files
-  if (fs.existsSync(springfieldDir)) {
-    const allFiles = fs.readdirSync(springfieldDir);
-    for (const file of allFiles) {
-      if (
-        file.endsWith(".md") &&
-        !REQUIRED_FILES.includes(file as any)
-      ) {
-        result.context.push(file);
-      }
-    }
-  }
-
-  return result;
-}
+// verifyPrerequisites is now imported from ../utils/prerequisites.js
 
 /**
  * Generate response when not initialized
@@ -84,7 +33,7 @@ Run \`/springfield init\` to get started.`;
 /**
  * Generate response when prerequisites are incomplete
  */
-function incompleteResponse(verification: VerificationResult): string {
+function incompleteResponse(verification: PrerequisiteResult): string {
   const missingList = verification.missing.map((m) => `  - ${m}`).join("\n");
 
   return `*sighs and adjusts saxophone case*
@@ -124,10 +73,11 @@ function synthesizePrompt(springfieldDir: string): string {
 
   // Add optional context files
   const allFiles = fs.readdirSync(springfieldDir);
+  const requiredFileSet = new Set<string>(REQUIRED_FILES);
   for (const file of allFiles) {
     if (
       file.endsWith(".md") &&
-      !REQUIRED_FILES.includes(file as any)
+      !requiredFileSet.has(file)
     ) {
       const filePath = path.join(springfieldDir, file);
       const content = fs.readFileSync(filePath, "utf-8");
@@ -144,6 +94,7 @@ function synthesizePrompt(springfieldDir: string): string {
  */
 function extractCompletionPromise(springfieldDir: string): string {
   const filePath = path.join(springfieldDir, "completion.md");
+  /* istanbul ignore if -- @preserve Defense-in-depth: file is required, verified before this call */
   if (!fs.existsSync(filePath)) return DEFAULT_COMPLETION_PROMISE;
 
   const content = fs.readFileSync(filePath, "utf-8");
@@ -153,21 +104,43 @@ function extractCompletionPromise(springfieldDir: string): string {
 
 /**
  * Extract max iterations from iterations.md
+ * @param springfieldDir - Path to the .springfield directory
+ * @returns Number of iterations, bounded between 1 and 1000
  */
 function extractMaxIterations(springfieldDir: string): number {
+  const MIN_ITERATIONS = 1;
+  const MAX_ITERATIONS = 1000;
+  
   const filePath = path.join(springfieldDir, "iterations.md");
+  /* istanbul ignore if -- @preserve Defense-in-depth: file is required, verified before this call */
   if (!fs.existsSync(filePath)) return DEFAULT_MAX_ITERATIONS;
 
   const content = fs.readFileSync(filePath, "utf-8");
   const match = content.match(/```\n(\d+)\n```/);
-  return match ? parseInt(match[1], 10) : DEFAULT_MAX_ITERATIONS;
+  
+  if (!match) return DEFAULT_MAX_ITERATIONS;
+  
+  const parsed = parseInt(match[1], 10);
+  
+  // Bounds validation: ensure iterations is a valid number within range
+  if (isNaN(parsed) || parsed < MIN_ITERATIONS) {
+    logger.warn(`Invalid iterations value, using minimum: ${MIN_ITERATIONS}`);
+    return MIN_ITERATIONS;
+  }
+  
+  if (parsed > MAX_ITERATIONS) {
+    logger.warn(`Iterations exceeds maximum, capping at: ${MAX_ITERATIONS}`);
+    return MAX_ITERATIONS;
+  }
+  
+  return parsed;
 }
 
 /**
  * Generate ready response with summary
  */
 function readyResponse(
-  verification: VerificationResult,
+  verification: PrerequisiteResult,
   springfieldDir: string
 ): string {
   const prompt = synthesizePrompt(springfieldDir);
@@ -204,8 +177,10 @@ or reaches ${iterations} iterations.`;
  * Invoke Ralph with synthesized context
  */
 async function invokeRalph(springfieldDir: string): Promise<string> {
-  // Set flag so ralph-gate allows passage
-  setRalphInitiated(true);
+  // Request a cryptographically secure authorization token
+  // Token is valid for 30 seconds and single-use only
+  // The token is stored internally in ralph-gate; we just need to trigger the request
+  requestRalphAuthorization();
 
   // Synthesize prompt
   const prompt = synthesizePrompt(springfieldDir);
@@ -242,6 +217,7 @@ export async function run(
   args: string[],
   context: CommandContext
 ): Promise<string> {
+  /* istanbul ignore next -- @preserve process.cwd() fallback for CLI usage */
   const projectDir = context.cwd || process.cwd();
   const springfieldDir = path.join(projectDir, SPRINGFIELD_DIR);
 

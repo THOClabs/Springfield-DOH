@@ -22,6 +22,7 @@ Expected output: ASCII art confirmation with file structure.
 ```
 
 Homer asks deceptively simple questions:
+
 - "Why do we need passwords?"
 - "Can't they just... tell us who they are?"
 - "What if the user is as dumb as me?"
@@ -35,6 +36,7 @@ Homer asks deceptively simple questions:
 ```
 
 Marge structures the project:
+
 - Directory organization
 - Responsibilities assignment
 - Cleanup checklists
@@ -48,6 +50,7 @@ Marge structures the project:
 ```
 
 Bart identifies edge cases:
+
 - Empty passwords
 - SQL injection attempts
 - Session hijacking
@@ -61,6 +64,7 @@ Bart identifies edge cases:
 ```
 
 Lisa provides thoughtful analysis:
+
 - Component design
 - Design principles
 - Risk analysis
@@ -78,6 +82,7 @@ Lisa provides thoughtful analysis:
 ```
 
 Wiggum's "review" reveals what to actually check:
+
 - Authentication gaps
 - Input validation needs
 - OWASP concerns
@@ -89,6 +94,7 @@ Wiggum's "review" reveals what to actually check:
 ```
 
 Burns demands ROI:
+
 - Cost breakdown
 - Resource allocation
 - "Excellent..." or "Release the hounds!"
@@ -100,6 +106,7 @@ Burns demands ROI:
 ```
 
 Skinner manages expectations:
+
 - Milestone tracking
 - Stakeholder updates
 - "Steamed hams" excuses (if needed)
@@ -115,6 +122,7 @@ Skinner manages expectations:
 ```
 
 Shows:
+
 - Required files (present/missing)
 - Planning artifacts
 - Ralph readiness
@@ -126,6 +134,7 @@ Shows:
 ```
 
 Lisa verifies prerequisites:
+
 - All required files complete
 - Shows summary
 - Asks for confirmation
@@ -137,6 +146,7 @@ yes
 ```
 
 Ralph begins:
+
 - "I'm helping!"
 - Persistent iteration
 - Completion promise checking

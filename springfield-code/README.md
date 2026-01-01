@@ -1,5 +1,8 @@
 # Springfield Code
 
+[![codecov](https://codecov.io/gh/THOC-LABS/springfield-code/graph/badge.svg)](https://codecov.io/gh/THOC-LABS/springfield-code)
+[![npm version](https://badge.fury.io/js/springfield-code.svg)](https://badge.fury.io/js/springfield-code)
+
 > "I'm helping!" - Ralph Wiggum
 
 A Simpsons-themed vibe coding environment for Claude Code that gamifies development planning through character agents, culminating in Ralph Wiggum persistent iteration loops.
@@ -21,11 +24,13 @@ npm run build
 ## Quick Start
 
 1. **Initialize Springfield** in your project:
+
    ```
    /springfield init
    ```
 
 2. **Plan with characters** - Each character helps with different aspects:
+
    ```
    /homer "What are we building?"    # Asks dumb-smart questions
    /lisa "Design the architecture"   # Creates structured plans
@@ -33,11 +38,13 @@ npm run build
    ```
 
 3. **Check your progress**:
+
    ```
    /springfield status
    ```
 
 4. **Execute with Ralph** (when planning is complete):
+
    ```
    /lisa ralph
    ```
@@ -145,4 +152,4 @@ MIT
 
 ## Author
 
-THOC-LABS (contact@thoc-labs.ai)
+THOC-LABS (<contact@thoc-labs.ai>)

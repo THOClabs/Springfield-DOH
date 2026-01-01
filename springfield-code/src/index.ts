@@ -33,8 +33,47 @@ export { default as frinkCommand } from "./commands/frink.js";
 export { default as cbgCommand } from "./commands/cbg.js";
 export { default as willieCommand } from "./commands/willie.js";
 
-// Hooks
-export { default as ralphGateHook, setRalphInitiated } from "./hooks/ralph-gate.js";
+// Specialist Commands (v2.1.0)
+export { default as drNickCommand } from "./commands/dr-nick.js";
+export { default as pattyCommand } from "./commands/patty.js";
+export { default as troyCommand } from "./commands/troy.js";
+export { default as lionelCommand } from "./commands/lionel.js";
+export { default as hansCommand } from "./commands/hans.js";
+export { default as hibbertCommand } from "./commands/hibbert.js";
+export { default as ednaCommand } from "./commands/edna.js";
+export { default as ottoCommand } from "./commands/otto.js";
+export { default as lennyCommand } from "./commands/lenny.js";
+export { default as kentCommand } from "./commands/kent.js";
+export { default as snakeCommand } from "./commands/snake.js";
+export { default as cookieCommand } from "./commands/cookie.js";
+export { default as gilCommand } from "./commands/gil.js";
+export { default as bumblebeeCommand } from "./commands/bumblebee.js";
+export { default as duffmanCommand } from "./commands/duffman.js";
+export { default as fatTonyCommand } from "./commands/fat-tony.js";
+export { default as seaCaptainCommand } from "./commands/sea-captain.js";
+export { default as lovejoyCommand } from "./commands/lovejoy.js";
+export { default as helenCommand } from "./commands/helen.js";
+export { default as agnesCommand } from "./commands/agnes.js";
+
+// Utility Commands (v2.2.0)
+export { default as summonBatchCommand } from "./commands/summon-batch.js";
+export { default as statsCommand } from "./commands/stats.js";
+export { default as cancelRalphCommand } from "./commands/cancel-ralph.js";
+
+// Hooks - v3.0.0: Secure token-based API only
+// See CHANGELOG.md and MIGRATION.md for migration guide from v2.x
+export {
+  default as ralphGateHook,
+  // Secure API
+  requestRalphAuthorization,
+  authorizeRalph,
+  revokeRalphAuthorization,
+  canInvokeRalph,
+  // Testing only
+  _resetForTesting as resetRalphGateForTesting,
+  // Types
+  type SecureToken,
+} from "./hooks/ralph-gate.js";
 
 // Constants
 export * from "./constants.js";
@@ -42,9 +81,63 @@ export * from "./constants.js";
 // Artifacts
 export { generateArtifact, artifactExists } from "./artifacts/generator.js";
 
-// Plugin metadata
+// Stats (v2.2.0)
+export { 
+  loadStats, 
+  saveStats, 
+  recordInvocation, 
+  getTopCharacters, 
+  formatStatsReport,
+  resetStats,
+  type UsageStats,
+} from "./utils/stats.js";
+
+// Validation utilities (v3.0.0)
+export {
+  isFileComplete,
+  hasTemplatePlaceholders,
+  validateFileContent,
+  validateRequiredFiles,
+  validateSpringfieldDirectory,
+  isSpringfieldInitialized,
+  isSpringfieldReady,
+  TEMPLATE_PLACEHOLDERS,
+  type FileValidationResult,
+  type DirectoryValidationResult,
+} from "./utils/validation.js";
+
+// Configuration (v2.3.0)
+export {
+  getConfig,
+  getCachedConfig,
+  clearConfigCache,
+  validateConfig,
+  DEFAULT_CONFIG,
+  type SpringfieldConfig,
+} from "./config.js";
+
+// Skills system (v3.0.0)
+export {
+  registerSkill,
+  registerSkillFromFile,
+  getSkill,
+  listSkills,
+  getRegistryState,
+  unregisterSkill,
+  clearSkillRegistry,
+  loadSkillsFromDirectory,
+  findSkillsByTrigger,
+  parseFrontmatter,
+  type Skill,
+  type SkillMetadata,
+  type RegisterSkillOptions,
+  type SkillLookupResult,
+  type SkillRegistryState,
+} from "./skills/index.js";
+
+// Plugin metadata - version synced with package.json
 export const PLUGIN_INFO = {
   name: "springfield-code",
-  version: "1.0.0",
+  version: "3.0.2",
   description: "Simpsons-themed vibe coding environment for Claude Code",
 };

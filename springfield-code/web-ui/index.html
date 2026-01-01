@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Springfield DOH - Character Dashboard</title>
+</head>
+<body>
+    <h1>Springfield DOH Dashboard</h1>
+    
+    <!-- Status Section -->
+    <div id="status-section">
+        <h2>System Status</h2>
+        <div id="system-status">Loading...</div>
+        <div id="ralph-gate-status">Ralph Gate: Unknown</div>
+        <button id="refresh-status-btn" onclick="refreshStatus()">Refresh Status</button>
+    </div>
+
+    <!-- Ralph Gate Controls -->
+    <div id="ralph-gate-section">
+        <h2>Ralph Gate Security</h2>
+        <button id="enable-ralph-btn" onclick="enableRalphGate()">Enable Ralph Gate</button>
+        <button id="disable-ralph-btn" onclick="disableRalphGate()">Disable Ralph Gate</button>
+        <div id="ralph-gate-log"></div>
+    </div>
+
+    <!-- Character Summoning -->
+    <div id="summon-section">
+        <h2>Summon Character</h2>
+        <select id="character-select">
+            <option value="">-- Select Character --</option>
+            <optgroup label="Simpson Family">
+                <option value="homer">Homer Simpson</option>
+                <option value="marge">Marge Simpson</option>
+                <option value="bart">Bart Simpson</option>
+                <option value="lisa">Lisa Simpson</option>
+                <option value="maggie">Maggie Simpson</option>
+            </optgroup>
+            <optgroup label="Extended Family">
+                <option value="grampa">Grampa Simpson</option>
+                <option value="flanders">Ned Flanders</option>
+            </optgroup>
+            <optgroup label="Springfield Residents">
+                <option value="apu">Apu Nahasapeemapetilon</option>
+                <option value="bob">Sideshow Bob</option>
+                <option value="burns">Mr. Burns</option>
+                <option value="cbg">Comic Book Guy</option>
+                <option value="frink">Professor Frink</option>
+                <option value="krusty">Krusty the Clown</option>
+                <option value="milhouse">Milhouse Van Houten</option>
+                <option value="moe">Moe Szyslak</option>
+                <option value="nelson">Nelson Muntz</option>
+                <option value="ralph">Ralph Wiggum</option>
+                <option value="skinner">Principal Skinner</option>
+                <option value="smithers">Waylon Smithers</option>
+                <option value="wiggum">Chief Wiggum</option>
+                <option value="willie">Groundskeeper Willie</option>
+            </optgroup>
+        </select>
+        <button id="summon-btn" onclick="summonCharacter()">Summon</button>
+        <div id="summon-result"></div>
+    </div>
+
+    <!-- Batch Summoning -->
+    <div id="batch-section">
+        <h2>Batch Operations</h2>
+        <button id="summon-all-simpsons-btn" onclick="summonAllSimpsons()">Summon All Simpsons</button>
+        <button id="summon-springfield-btn" onclick="summonSpringfield()">Summon Springfield</button>
+        <button id="clear-all-btn" onclick="clearAll()">Clear All</button>
+        <div id="batch-result"></div>
+    </div>
+
+    <!-- Character Grid -->
+    <div id="character-grid-section">
+        <h2>Active Characters</h2>
+        <div id="character-count">0 characters active</div>
+        <div id="character-grid"></div>
+    </div>
+
+    <!-- Skills Section -->
+    <div id="skills-section">
+        <h2>Skills Registry</h2>
+        <button id="list-skills-btn" onclick="listSkills()">List All Skills</button>
+        <button id="refresh-skills-btn" onclick="refreshSkills()">Refresh</button>
+        <div id="skills-list"></div>
+    </div>
+
+    <!-- Artifacts Section -->
+    <div id="artifacts-section">
+        <h2>Artifact Generator</h2>
+        <select id="artifact-type-select">
+            <option value="">-- Select Artifact Type --</option>
+            <option value="donut">Donut (Homer)</option>
+            <option value="saxophone">Saxophone (Lisa)</option>
+            <option value="skateboard">Skateboard (Bart)</option>
+            <option value="pearls">Pearls (Marge)</option>
+            <option value="pacifier">Pacifier (Maggie)</option>
+            <option value="squishee">Squishee (Apu)</option>
+            <option value="nuclear-rod">Nuclear Rod (Burns)</option>
+            <option value="beer">Duff Beer (Moe)</option>
+        </select>
+        <button id="generate-artifact-btn" onclick="generateArtifact()">Generate</button>
+        <div id="artifact-result"></div>
+    </div>
+
+    <!-- Config Section -->
+    <div id="config-section">
+        <h2>Configuration</h2>
+        <button id="show-config-btn" onclick="showConfig()">Show Config</button>
+        <button id="reset-config-btn" onclick="resetConfig()">Reset to Defaults</button>
+        <div id="config-display"></div>
+    </div>
+
+    <!-- Console/Log -->
+    <div id="console-section">
+        <h2>Console Log</h2>
+        <button id="clear-console-btn" onclick="clearConsole()">Clear Console</button>
+        <div id="console-log"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

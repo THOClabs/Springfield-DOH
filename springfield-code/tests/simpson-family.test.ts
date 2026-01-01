@@ -1,8 +1,10 @@
 import { describe, it, expect } from "vitest";
+import * as path from "path";
+import * as os from "os";
 import { summonCharacter } from "../src/commands/summon.js";
 
 describe("Simpson Family Commands", () => {
-  const context = { cwd: "/tmp/test" };
+  const context = { cwd: path.join(os.tmpdir(), "test") };
 
   describe("homer command", () => {
     it("responds in character", async () => {

@@ -17,6 +17,7 @@ A comprehensive guide to using Springfield Code, the Simpsons-themed vibe coding
    - [Simpson Family](#simpson-family)
    - [Extended Family](#extended-family)
    - [Springfield Specialists](#springfield-specialists)
+   - [Technical Specialists (v2.1.0)](#technical-specialists-v210)
 7. [The Lisa-Ralph Protocol](#the-lisa-ralph-protocol)
 8. [Workflow Examples](#workflow-examples)
 9. [Command Reference](#command-reference)
@@ -169,6 +170,7 @@ Direct Ralph invocation is blocked. This is intentional:
 ```
 /ralph
 ```
+
 > *Ralph looks confused*
 > Hi Lisa! Where's Lisa? Lisa tells me what to do.
 
@@ -220,6 +222,7 @@ When you run `/springfield init`, a `.springfield/` directory is created with th
 ### File Templates
 
 #### project.md
+
 ```markdown
 # Project Definition
 
@@ -246,6 +249,7 @@ When you run `/springfield init`, a `.springfield/` directory is created with th
 ```
 
 #### task.md
+
 ```markdown
 # Current Task
 
@@ -264,12 +268,15 @@ When you run `/springfield init`, a `.springfield/` directory is created with th
 ```
 
 #### completion.md
+
 ```markdown
 # Completion Criteria
 
 ## Completion Promise
 ```
+
 DONE
+
 ```
 
 ## Success Conditions
@@ -282,12 +289,15 @@ DONE
 ```
 
 #### iterations.md
+
 ```markdown
 # Iteration Configuration
 
 ## Max Iterations
 ```
+
 20
+
 ```
 
 ## Stuck Protocol
@@ -311,12 +321,14 @@ After 75% of iterations without completion:
 Homer's superpower is asking obvious questions that aren't actually obvious. His simple perspective cuts through complexity and reveals hidden assumptions.
 
 **Best Used For:**
+
 - Early project planning
 - Challenging assumptions
 - Simplifying complex features
 - Finding unnecessary complexity
 
 **Example Interaction:**
+
 ```
 /homer "We're building a microservices architecture"
 ```
@@ -333,6 +345,7 @@ Homer's superpower is asking obvious questions that aren't actually obvious. His
 > Mmm... distributed donuts...
 
 **Sample Questions Homer Might Ask:**
+
 - "Why do we need this again?"
 - "What's the simplest way to do this?"
 - "What if the user is as confused as me?"
@@ -348,12 +361,14 @@ Homer's superpower is asking obvious questions that aren't actually obvious. His
 Marge keeps things tidy and ensures everyone knows their responsibilities. Her worried "Hmmmm..." often signals real concerns.
 
 **Best Used For:**
+
 - Project organization
 - Directory structure
 - Role assignment
 - Cleanup planning
 
 **Example Interaction:**
+
 ```
 /marge "How should we organize the API module?"
 ```
@@ -375,6 +390,7 @@ Marge keeps things tidy and ensures everyone knows their responsibilities. Her w
 > ```
 >
 > **Things That Worry Me:**
+>
 > - Who's maintaining the middleware?
 > - We should have a cleanup checklist
 
@@ -388,12 +404,14 @@ Marge keeps things tidy and ensures everyone knows their responsibilities. Her w
 Bart can't resist breaking things. This makes him perfect for finding what could go wrong.
 
 **Best Used For:**
+
 - Edge case identification
 - Security testing ideas
 - Chaos scenarios
 - Breaking assumptions
 
 **Example Interaction:**
+
 ```
 /bart "What could break in the payment system?"
 ```
@@ -402,12 +420,14 @@ Bart can't resist breaking things. This makes him perfect for finding what could
 > Ay caramba! A payment system? Oh man...
 >
 > **Things I'm Going to Try:**
+>
 > 1. Pay with $0.00 - does it go through?
 > 2. Pay with $-100 - do I get money?
 > 3. Click "Pay" 50 times really fast
 > 4. Put `<script>alert('eat my shorts!')</script>` in the name field
 >
 > **Loopholes I See:**
+>
 > - Can I pay for something, get the item, then cancel?
 > - What if the internet dies mid-payment?
 
@@ -422,12 +442,14 @@ Bart can't resist breaking things. This makes him perfect for finding what could
 Lisa is the intellectual who sees the big picture. She designs systems thoughtfully and is the ONLY one who can initiate Ralph.
 
 **Best Used For:**
+
 - System architecture
 - Design patterns
 - Long-term planning
 - Initiating execution
 
 **Example Interaction:**
+
 ```
 /lisa "Design the data access layer"
 ```
@@ -438,19 +460,23 @@ Lisa is the intellectual who sees the big picture. She designs systems thoughtfu
 > A data access layer needs careful consideration...
 >
 > **Design Principles:**
+>
 > 1. Repository pattern for abstraction
 > 2. Unit of work for transactions
 > 3. Separation from business logic
 >
 > **Architecture:**
+>
 > ```
 > Controllers → Services → Repositories → Database
 > ```
 
 **Special Command:**
+
 ```
 /lisa ralph
 ```
+
 This initiates the Ralph execution protocol (see [The Lisa-Ralph Protocol](#the-lisa-ralph-protocol)).
 
 ---
@@ -463,12 +489,14 @@ This initiates the Ralph execution protocol (see [The Lisa-Ralph Protocol](#the-
 Maggie doesn't talk, but she notices everything. Her squeaks translate to log levels.
 
 **Best Used For:**
+
 - Logging strategy
 - Monitoring setup
 - Observability planning
 - Status code design
 
 **Example Interaction:**
+
 ```
 /maggie "What should we log for user actions?"
 ```
@@ -496,12 +524,14 @@ Maggie doesn't talk, but she notices everything. Her squeaks translate to log le
 Grampa rambles, but his stories contain buried wisdom about past decisions and lessons learned.
 
 **Best Used For:**
+
 - Understanding legacy code
 - Learning from past mistakes
 - Context for old decisions
 - Institutional knowledge
 
 **Example:**
+
 ```
 /grampa "Why is the auth system built this way?"
 ```
@@ -516,12 +546,14 @@ Grampa rambles, but his stories contain buried wisdom about past decisions and l
 Burns evaluates everything through cost-benefit analysis. His "Excellent..." is hard-earned approval.
 
 **Best Used For:**
+
 - Cost justification
 - Resource allocation
 - ROI analysis
 - Executive communication
 
 **Example:**
+
 ```
 /burns "What will the new infrastructure cost?"
 ```
@@ -536,12 +568,14 @@ Burns evaluates everything through cost-benefit analysis. His "Excellent..." is 
 Smithers translates between technical and executive speak, and manages practical timelines.
 
 **Best Used For:**
+
 - Project scheduling
 - Executive updates
 - Timeline management
 - Communication planning
 
 **Example:**
+
 ```
 /smithers "Plan the migration timeline"
 ```
@@ -556,12 +590,14 @@ Smithers translates between technical and executive speak, and manages practical
 Flanders is the ultimate rule-follower. His coding standards are neighborly and thorough.
 
 **Best Used For:**
+
 - Establishing guidelines
 - Code review standards
 - Best practices
 - Documentation standards
 
 **Example:**
+
 ```
 /flanders "What should our coding standards be?"
 ```
@@ -578,6 +614,7 @@ Flanders is the ultimate rule-follower. His coding standards are neighborly and 
 Milhouse gets hurt first - making him the canary for dependency issues.
 
 **Best Used For:**
+
 - Dependency analysis
 - Upgrade risk assessment
 - Compatibility checking
@@ -593,6 +630,7 @@ Milhouse gets hurt first - making him the canary for dependency issues.
 Moe's pessimism makes him an excellent debugger. He expects everything to fail.
 
 **Best Used For:**
+
 - Debugging sessions
 - Stack trace analysis
 - Error diagnosis
@@ -608,6 +646,7 @@ Moe's pessimism makes him an excellent debugger. He expects everything to fail.
 Wiggum's incompetence ironically reveals security gaps - what he misses is what you should check.
 
 **Best Used For:**
+
 - Security audits
 - Vulnerability finding
 - Authentication review
@@ -623,6 +662,7 @@ Wiggum's incompetence ironically reveals security gaps - what he misses is what 
 Krusty knows showmanship. He prepares demos that work (at least for the demo).
 
 **Best Used For:**
+
 - Demo preparation
 - Presentation planning
 - Stakeholder meetings
@@ -638,6 +678,7 @@ Krusty knows showmanship. He prepares demos that work (at least for the demo).
 Bob thinks like an attacker. His sophisticated threats reveal real vulnerabilities.
 
 **Best Used For:**
+
 - Threat modeling
 - Attack vectors
 - Penetration test planning
@@ -653,6 +694,7 @@ Bob thinks like an attacker. His sophisticated threats reveal real vulnerabiliti
 Skinner manages timelines and has "steamed hams" excuses ready for delays.
 
 **Best Used For:**
+
 - Project timelines
 - Milestone tracking
 - Stakeholder management
@@ -668,6 +710,7 @@ Skinner manages timelines and has "steamed hams" excuses ready for delays.
 Nelson laughs at failures ("Ha-ha!") but this motivates better testing.
 
 **Best Used For:**
+
 - Test coverage analysis
 - Failure identification
 - Edge case testing
@@ -683,6 +726,7 @@ Nelson laughs at failures ("Ha-ha!") but this motivates better testing.
 Apu runs the Kwik-E-Mart 24/7 - reliable, always available, well-organized.
 
 **Best Used For:**
+
 - Helper function design
 - Utility libraries
 - Common operations
@@ -698,6 +742,7 @@ Apu runs the Kwik-E-Mart 24/7 - reliable, always available, well-organized.
 Frink explores cutting-edge technology. Things may explode, but innovation happens.
 
 **Best Used For:**
+
 - Technology exploration
 - Prototype planning
 - Innovation research
@@ -713,6 +758,7 @@ Frink explores cutting-edge technology. Things may explode, but innovation happe
 CBG's harsh criticism ("Worst X ever") drives better documentation.
 
 **Best Used For:**
+
 - Documentation review
 - README evaluation
 - API doc quality
@@ -728,10 +774,352 @@ CBG's harsh criticism ("Worst X ever") drives better documentation.
 Willie does the dirty work of infrastructure. Rough but competent.
 
 **Best Used For:**
+
 - Deployment planning
 - Server configuration
 - DevOps processes
 - Infrastructure as code
+
+---
+
+### Technical Specialists (v2.1.0)
+
+The following 20 specialist characters were added in v2.1.0 to cover advanced technical domains. Each brings unique expertise to specific areas of software development.
+
+#### Dr. Nick (`/dr-nick`)
+
+**Role:** API Health Checks
+**Artifact:** `health-checks.md`
+**Catchphrase:** "Hi everybody!"
+
+Dr. Nick performs cheerful (if somewhat questionable) health checks on your APIs.
+
+**Best Used For:**
+
+- API endpoint monitoring
+- Health check design
+- Response time analysis
+- Service availability audits
+
+---
+
+#### Patty Bouvier (`/patty`)
+
+**Role:** Compliance & Approval Gates
+**Artifact:** `compliance.md`
+
+Patty doesn't approve of much, which makes her perfect for quality gates.
+
+**Best Used For:**
+
+- Approval workflow design
+- Compliance checkpoints
+- Quality gate enforcement
+- Review process definition
+
+---
+
+#### Troy McClure (`/troy`)
+
+**Role:** Onboarding & Tutorials
+**Artifact:** `onboarding.md`
+**Catchphrase:** "You may remember me from..."
+
+Troy creates engaging onboarding experiences and tutorials.
+
+**Best Used For:**
+
+- Developer onboarding
+- Getting started guides
+- Tutorial design
+- Documentation walkthroughs
+
+---
+
+#### Lionel Hutz (`/lionel`)
+
+**Role:** Legal & Licensing Review
+**Artifact:** `legal.md`
+**Catchphrase:** "Works on contingency? No, money down!"
+
+Lionel reviews legal and licensing concerns (with varying competence).
+
+**Best Used For:**
+
+- License compatibility
+- Open source compliance
+- Attribution requirements
+- Legal risk assessment
+
+---
+
+#### Hans Moleman (`/hans`)
+
+**Role:** Accessibility (a11y)
+**Artifact:** `accessibility.md`
+
+Hans can barely see, so he's perfect for testing accessibility.
+
+**Best Used For:**
+
+- WCAG compliance
+- Screen reader testing
+- Keyboard navigation
+- Color contrast review
+
+---
+
+#### Dr. Hibbert (`/hibbert`)
+
+**Role:** Performance Profiling
+**Artifact:** `performance.md`
+**Catchphrase:** "A-hee-hee-hee!"
+
+Dr. Hibbert diagnoses performance issues with clinical precision.
+
+**Best Used For:**
+
+- Performance profiling
+- Bottleneck analysis
+- Memory leak detection
+- Response time optimization
+
+---
+
+#### Edna Krabappel (`/edna`)
+
+**Role:** Code Review
+**Artifact:** `review.md`
+**Catchphrase:** "Ha!"
+
+Edna grades your code mercilessly. Expect tough feedback.
+
+**Best Used For:**
+
+- Code review checklists
+- Teaching moments
+- Style guide enforcement
+- Quality assessment
+
+---
+
+#### Otto Mann (`/otto`)
+
+**Role:** Migration Strategy
+**Artifact:** `migration.md`
+**Catchphrase:** "Radical, dude!"
+
+Otto drives the migration bus. The route may be unconventional.
+
+**Best Used For:**
+
+- Version migrations
+- Database migrations
+- Breaking change management
+- Upgrade strategies
+
+---
+
+#### Lenny Leonard (`/lenny`)
+
+**Role:** A/B Testing
+**Artifact:** `ab-testing.md`
+
+Lenny and Carl debate options, making him perfect for A/B testing.
+
+**Best Used For:**
+
+- Experiment design
+- Variant analysis
+- Feature comparison
+- Statistical significance
+
+---
+
+#### Kent Brockman (`/kent`)
+
+**Role:** Monitoring & Alerting
+**Artifact:** `monitoring.md`
+**Catchphrase:** "This just in!"
+
+Kent reports breaking news about your system status.
+
+**Best Used For:**
+
+- Alert configuration
+- Dashboard design
+- Incident reporting
+- Status communication
+
+---
+
+#### Snake Jailbird (`/snake`)
+
+**Role:** Authentication & Authorization
+**Artifact:** `auth.md`
+**Catchphrase:** "Bye-bye!"
+
+Snake knows how to break in, so he knows how to lock things down.
+
+**Best Used For:**
+
+- Auth flow security
+- Token security audit
+- Permission model design
+- Session management
+
+---
+
+#### Cookie Kwan (`/cookie`)
+
+**Role:** Database & Data Modeling
+**Artifact:** `database.md`
+**Catchphrase:** "Stay off the west side!"
+
+Cookie is territorial about her database schemas.
+
+**Best Used For:**
+
+- Schema design
+- Query optimization
+- Data governance
+- Migration planning
+
+---
+
+#### Gil Gunderson (`/gil`)
+
+**Role:** Error Handling Patterns
+**Artifact:** `errors.md`
+**Catchphrase:** "Ol' Gil really needs this..."
+
+Gil has experienced every failure mode. He knows what can go wrong.
+
+**Best Used For:**
+
+- Exception handling
+- Retry patterns
+- Fallback strategies
+- Error recovery
+
+---
+
+#### Bumblebee Man (`/bumblebee`)
+
+**Role:** Internationalization (i18n)
+**Artifact:** `i18n.md`
+**Catchphrase:** "¡Ay, ay, ay!"
+
+Bumblebee Man brings multilingual chaos (and expertise).
+
+**Best Used For:**
+
+- Translation systems
+- Locale handling
+- RTL support
+- Cultural sensitivity
+
+---
+
+#### Duffman (`/duffman`)
+
+**Role:** Feature Flags
+**Artifact:** `feature-flags.md`
+**Catchphrase:** "Oh yeah!"
+
+Duffman controls when features are revealed to the crowd.
+
+**Best Used For:**
+
+- Feature toggle design
+- Progressive rollout
+- Kill switches
+- Experiment flags
+
+---
+
+#### Fat Tony (`/fat-tony`)
+
+**Role:** Microservices Architecture
+**Artifact:** `microservices.md`
+**Catchphrase:** "Each service handles its own business"
+
+Fat Tony runs an organization where each family has clear boundaries.
+
+**Best Used For:**
+
+- Service boundaries
+- API contracts
+- Distributed transactions
+- Service mesh design
+
+---
+
+#### Sea Captain (`/sea-captain`)
+
+**Role:** Container Orchestration
+**Artifact:** `containers.md`
+**Catchphrase:** "Arr!"
+
+The Captain navigates the stormy seas of container orchestration.
+
+**Best Used For:**
+
+- Kubernetes configuration
+- Container deployment
+- Scaling strategies
+- Service discovery
+
+---
+
+#### Reverend Lovejoy (`/lovejoy`)
+
+**Role:** Event-Driven Architecture
+**Artifact:** `events.md`
+**Catchphrase:** "The message has been delivered"
+
+Lovejoy spreads the message through pub/sub patterns.
+
+**Best Used For:**
+
+- Event schema design
+- Message reliability
+- Saga patterns
+- Event sourcing
+
+---
+
+#### Helen Lovejoy (`/helen`)
+
+**Role:** User Analytics & Privacy
+**Artifact:** `privacy.md`
+**Catchphrase:** "Won't somebody please think of...!"
+
+Helen is deeply concerned about what data you're collecting.
+
+**Best Used For:**
+
+- GDPR/CCPA compliance
+- Consent management
+- PII protection
+- Data retention policies
+
+---
+
+#### Agnes Skinner (`/agnes`)
+
+**Role:** CI/CD Pipelines
+**Artifact:** `cicd.md`
+**Catchphrase:** "SEYMOUR!"
+
+Agnes demands perfection from your build pipelines.
+
+**Best Used For:**
+
+- Pipeline design
+- Quality gates
+- Deployment automation
+- Build optimization
 
 ---
 
@@ -743,12 +1131,14 @@ Willie does the dirty work of infrastructure. Rough but competent.
 Ralph is the persistent iterator who does the actual work. But he needs Lisa's guidance.
 
 **How to Use:**
+
 ```
 /lisa ralph    # Check prerequisites
 yes            # Confirm to start
 ```
 
 **Cannot Use:**
+
 ```
 /ralph         # BLOCKED - returns confused response
 ```
@@ -762,12 +1152,14 @@ The Lisa-Ralph Protocol is the core execution mechanism of Springfield Code.
 ### Why Ralph Needs Lisa
 
 Ralph is eager but easily confused. Without proper preparation:
+
 - He doesn't know what to build
 - He doesn't know when he's done
 - He might build the wrong thing
 - He'll never stop
 
 Lisa provides:
+
 - Clear task definition
 - Completion criteria
 - Synthesized context
@@ -793,6 +1185,7 @@ Before Lisa can initiate Ralph, these files must be complete in `.springfield/`:
 ```
 
 **If NOT ready:**
+
 ```
 *sighs and adjusts saxophone case*
 
@@ -806,6 +1199,7 @@ Let me help you create these...
 ```
 
 **If ready:**
+
 ```
 *eyes light up*
 
@@ -830,6 +1224,7 @@ yes
 ```
 
 **Response:**
+
 ```
 *Lisa nods confidently*
 
@@ -847,6 +1242,7 @@ Ralph Loop Initiated
 #### Step 3: Ralph Executes
 
 Ralph iterates until:
+
 - He outputs the completion promise ("DONE")
 - He reaches max iterations
 - User cancels with `/cancel-ralph`
@@ -1042,12 +1438,14 @@ yes
 ### Writing Good Task Files
 
 **task.md should include:**
+
 - Clear, specific objective
 - All necessary context
 - Files to create/modify
 - Success criteria
 
 **completion.md should include:**
+
 - Simple completion promise (e.g., "DONE")
 - Measurable success conditions
 - Verification steps
@@ -1081,6 +1479,7 @@ yes
 #### "Springfield not initialized"
 
 **Solution:**
+
 ```
 /springfield init
 ```
@@ -1090,6 +1489,7 @@ yes
 **Cause:** Missing or incomplete required files
 
 **Solution:**
+
 1. Run `/springfield status` to see what's missing
 2. Complete all required files in `.springfield/`
 3. Ensure files have >200 characters and no placeholders
@@ -1099,6 +1499,7 @@ yes
 **This is intentional!** Ralph cannot be invoked directly.
 
 **Solution:**
+
 ```
 /lisa ralph
 ```
@@ -1112,6 +1513,7 @@ yes
 #### Tests are failing
 
 **Solution:**
+
 ```bash
 cd springfield-code
 npm run test

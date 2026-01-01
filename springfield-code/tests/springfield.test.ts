@@ -1,10 +1,11 @@
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import * as fs from "fs";
 import * as path from "path";
+import * as os from "os";
 import { run as springfieldRun } from "../src/commands/springfield.js";
 
 describe("springfield command", () => {
-  const testDir = "/tmp/springfield-test-" + Date.now();
+  const testDir = path.join(os.tmpdir(), "springfield-test-" + Date.now());
   const springfieldDir = path.join(testDir, ".springfield");
 
   beforeEach(() => {
@@ -100,6 +101,42 @@ describe("springfield command", () => {
       const result = await springfieldRun(["unknown"], { cwd: testDir });
 
       expect(result).toContain("Springfield Code");
+    });
+  });
+
+  describe("status with optional files", () => {
+    it("shows optional artifact files when present", async () => {
+      await springfieldRun(["init"], { cwd: testDir });
+      
+      // Add optional planning artifacts
+      fs.writeFileSync(path.join(springfieldDir, "questions.md"), "# Homer's Questions\n\nContent here");
+      fs.writeFileSync(path.join(springfieldDir, "edge-cases.md"), "# Bart's Edge Cases\n\nContent here");
+
+      const result = await springfieldRun(["status"], { cwd: testDir });
+
+      expect(result).toContain("Planning Artifacts");
+      expect(result).toContain("questions.md");
+      expect(result).toContain("edge-cases.md");
+    });
+
+    it("shows RALPH READY when all files are complete", async () => {
+      await springfieldRun(["init"], { cwd: testDir });
+      
+      // Create complete files with substantive content
+      const files = {
+        "project.md": "# Project Definition\n\nThis is a complete project description with enough content. ".repeat(10),
+        "task.md": "# Task Definition\n\nThis is a complete task description with enough content. ".repeat(10),
+        "completion.md": "# Completion Criteria\n\n```\nDONE\n```\n\nThis is complete. ".repeat(10),
+        "iterations.md": "# Iterations\n\n```\n20\n```\n\nThis is complete. ".repeat(10),
+      };
+
+      for (const [name, content] of Object.entries(files)) {
+        fs.writeFileSync(path.join(springfieldDir, name), content);
+      }
+
+      const result = await springfieldRun(["status"], { cwd: testDir });
+
+      expect(result).toContain("READY");
     });
   });
 });

@@ -7,9 +7,16 @@ export default defineConfig({
     include: ["tests/**/*.test.ts"],
     coverage: {
       provider: "v8",
-      reporter: ["text", "json", "html"],
+      reporter: ["text", "json", "html", "lcov"],
       include: ["src/**/*.ts"],
       exclude: ["src/**/*.d.ts"],
+      thresholds: {
+        // Core logic coverage thresholds
+        lines: 80,
+        functions: 75,
+        branches: 70,
+        statements: 80,
+      },
     },
   },
 });

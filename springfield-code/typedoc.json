@@ -1,0 +1,32 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["./src/index.ts"],
+  "out": "./docs",
+  "name": "Springfield DOH",
+  "readme": "./README.md",
+  "includeVersion": true,
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeInternal": false,
+  "plugin": [],
+  "hideGenerator": true,
+  "navigationLinks": {
+    "GitHub": "https://github.com/your-org/springfield-doh"
+  },
+  "categorizeByGroup": true,
+  "defaultCategory": "Other",
+  "categoryOrder": [
+    "Commands",
+    "Hooks",
+    "Artifacts",
+    "Types",
+    "Utilities",
+    "*"
+  ],
+  "sort": ["source-order", "alphabetical"],
+  "visibilityFilters": {
+    "protected": false,
+    "private": false,
+    "@internal": false
+  }
+}
