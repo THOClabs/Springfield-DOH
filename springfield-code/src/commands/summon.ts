@@ -1,0 +1,200 @@
+/**
+ * Character summoning command
+ * Central logic for summoning Simpsons characters for planning
+ */
+
+import * as fs from "fs";
+import * as path from "path";
+import { fileURLToPath } from "url";
+import { CHARACTER_ARTIFACTS, ALL_CHARACTERS } from "../constants.js";
+
+// ESM-compatible __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+interface SummonContext {
+  cwd?: string;
+}
+
+/**
+ * Find the agent definition file for a character
+ */
+function findAgentPath(character: string): string | null {
+  const basePath = path.join(__dirname, "..", "agents");
+
+  // Check simpson-family
+  let agentPath = path.join(basePath, "simpson-family", `${character}.md`);
+  if (fs.existsSync(agentPath)) return agentPath;
+
+  // Check extended
+  agentPath = path.join(basePath, "extended", `${character}.md`);
+  if (fs.existsSync(agentPath)) return agentPath;
+
+  // Check springfield
+  agentPath = path.join(basePath, "springfield", `${character}.md`);
+  if (fs.existsSync(agentPath)) return agentPath;
+
+  // Check specialists (v2.1.0+)
+  /* istanbul ignore next -- @preserve Legacy specialists path, kept for backward compatibility */
+  agentPath = path.join(basePath, "specialists", `${character}.md`);
+  if (fs.existsSync(agentPath)) return agentPath;
+
+  return null;
+}
+
+/**
+ * Load agent definition
+ */
+function loadAgentDefinition(character: string): string | null {
+  const agentPath = findAgentPath(character);
+  if (!agentPath) return null;
+
+  try {
+    return fs.readFileSync(agentPath, "utf-8");
+  } catch /* istanbul ignore next -- @preserve Cannot mock fs.readFileSync in ESM */ {
+    return null;
+  }
+}
+
+/**
+ * Generate character response based on personality
+ */
+function generateCharacterResponse(
+  character: string,
+  _agentDef: string,
+  userInput: string
+): string {
+  // Generate response header with character action
+  const characterName = character.charAt(0).toUpperCase() + character.slice(1);
+
+  return `*${characterName} considers the request*
+
+${getCharacterDialogue(character, userInput)}
+
+---
+Character: ${characterName}
+Context: ${userInput || "(no specific input)"}
+Artifact: ${CHARACTER_ARTIFACTS[character] || "none"}
+`;
+}
+
+/**
+ * Get character-specific dialogue
+ */
+function getCharacterDialogue(character: string, input: string): string {
+  const dialogues: Record<string, string> = {
+    homer: `D'oh! Let me think about this...
+
+*scratches head*
+
+So you want to know: "${input}"
+
+Here's what I'm wondering:
+- Why are we doing this again?
+- Is there donuts involved?
+- What's the simplest possible way to do this?
+
+Sometimes the dumbest question reveals the smartest answer.`,
+
+    marge: `Hmmmm...
+
+*adjusts hair nervously*
+
+Let me organize this properly for you.
+
+Regarding: "${input}"
+
+Structure I'd suggest:
+1. First, we need to understand the core problem
+2. Then, break it down into manageable pieces
+3. Finally, make sure everyone knows their role
+
+Don't forget to clean up as you go!`,
+
+    bart: `Eat my shorts! This sounds interesting...
+
+*grabs skateboard*
+
+"${input}" - Okay, here's what could go WRONG:
+
+- What if someone uses this in a way you didn't expect?
+- What if the inputs are garbage?
+- What if everything breaks at once?
+
+Ay caramba, chaos engineering is my specialty!`,
+
+    lisa: `*adjusts saxophone case thoughtfully*
+
+"${input}" - This requires careful analysis.
+
+From an architectural perspective:
+- What are the key components?
+- How do they interact?
+- What patterns should we follow?
+
+Let me help structure this properly...`,
+
+    maggie: `*squeak*
+
+*squeak squeak*
+
+(Status: ACKNOWLEDGED)
+(Input received: "${input}")
+(Logging initialized)
+
+*squeak*`,
+  };
+
+  return dialogues[character] || `*${character} responds in character*\n\n"${input}"`;
+}
+
+/**
+ * Summon a character for planning
+ */
+export async function summonCharacter(
+  character: string,
+  userInput: string,
+  _context: SummonContext
+): Promise<string> {
+  const normalizedCharacter = character.toLowerCase();
+  const validCharacters = new Set<string>(ALL_CHARACTERS);
+
+  // Validate character
+  if (!validCharacters.has(normalizedCharacter)) {
+    return `Unknown character: ${character}
+
+Available characters:
+${ALL_CHARACTERS.map((c) => `  /${c}`).join("\n")}`;
+  }
+
+  // Load agent definition
+  const agentDef = loadAgentDefinition(normalizedCharacter);
+
+  // Generate response (even without agent file, use defaults)
+  // Note: The falsy branch is defense code - all valid characters have agent files
+  /* istanbul ignore next -- @preserve Defense-in-depth: all valid characters have agent files */
+  const response = agentDef
+    ? generateCharacterResponse(normalizedCharacter, agentDef, userInput)
+    : generateCharacterResponse(normalizedCharacter, "", userInput);
+
+  return response;
+}
+
+export default {
+  name: "summon",
+  description: "Summon a Simpsons character for planning assistance",
+
+  async run(args: string[], context: SummonContext): Promise<string> {
+    const [character, ...inputParts] = args;
+    const userInput = inputParts.join(" ");
+
+    if (!character) {
+      return `Usage: /summon <character> [input]
+
+Available characters:
+${ALL_CHARACTERS.map((c) => `  ${c}`).join("\n")}`;
+    }
+
+    return summonCharacter(character, userInput, context);
+  },
+};

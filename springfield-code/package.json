@@ -1,0 +1,70 @@
+{
+  "name": "springfield-code",
+  "version": "3.0.3",
+  "description": "Simpsons-themed vibe coding environment for Claude Code - gamifies development planning through character agents culminating in Ralph Wiggum persistent iteration loops",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "clean": "node -e \"require('fs').rmSync('dist', {recursive:true, force:true})\"",
+    "prebuild": "npm run clean",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "docs": "typedoc",
+    "docs:watch": "typedoc --watch",
+    "prepare": "husky"
+  },
+  "keywords": [
+    "claude-code",
+    "plugin",
+    "simpsons",
+    "development-planning",
+    "vibe-coding"
+  ],
+  "author": {
+    "name": "THOC-LABS",
+    "email": "contact@thoc-labs.ai"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@commitlint/cli": "^20.2.0",
+    "@commitlint/config-conventional": "^20.2.0",
+    "@eslint/js": "^9.17.0",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@types/jsdom": "^27.0.0",
+    "@types/node": "^20.0.0",
+    "@vitest/coverage-v8": "^1.6.1",
+    "eslint": "^9.17.0",
+    "globals": "^15.14.0",
+    "husky": "^9.1.7",
+    "jsdom": "^27.4.0",
+    "lint-staged": "^16.2.7",
+    "markdownlint-cli": "^0.47.0",
+    "semantic-release": "^25.0.2",
+    "typedoc": "^0.28.15",
+    "typescript": "^5.0.0",
+    "typescript-eslint": "^8.19.0",
+    "vitest": "^1.0.0"
+  },
+  "claudePluginDependencies": [
+    "ralph-wiggum"
+  ],
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix",
+      "vitest related --run"
+    ],
+    "*.md": [
+      "markdownlint --fix"
+    ]
+  }
+}
