@@ -3,9 +3,36 @@
 [![codecov](https://codecov.io/gh/THOC-LABS/springfield-code/graph/badge.svg)](https://codecov.io/gh/THOC-LABS/springfield-code)
 [![npm version](https://badge.fury.io/js/springfield-code.svg)](https://badge.fury.io/js/springfield-code)
 
-> "I'm helping!" - Ralph Wiggum
+> **"Different perspectives for different people. Find the thinking you're missing."**
 
-A Simpsons-themed vibe coding environment for Claude Code that gamifies development planning through character agents, culminating in Ralph Wiggum persistent iteration loops.
+Springfield Code is a CLI plugin for Claude Code that brings character-driven perspectives to your development workflow. Every character is a lens that sees what others miss.
+
+## Why Springfield Code?
+
+Development tasks require multiple perspectives:
+- The **questioner** who asks "why?" (Homer)
+- The **organizer** who brings structure (Marge)
+- The **challenger** who breaks assumptions (Bart)
+- The **synthesizer** who sees patterns (Lisa)
+
+These aren't just roles - they're VOICES. And the most memorable voices come from Springfield.
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│              SPRINGFIELD CODE: THE CORE IDEA                 │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│  Characters aren't decoration - they're METHODOLOGY.         │
+│                                                              │
+│  • Homer's "stupid" questions find blind spots               │
+│  • Lisa's synthesis creates clarity from noise               │
+│  • Bart's chaos reveals hidden fragility                     │
+│  • Marge's organization prevents entropy                     │
+│                                                              │
+│  The entertainment is the delivery mechanism.                │
+│  The utility is the product.                                 │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ## Installation
 
@@ -29,12 +56,15 @@ npm run build
    /springfield init
    ```
 
-2. **Plan with characters** - Each character helps with different aspects:
+   *Troy McClure will welcome you and explain what just happened.*
+
+2. **Get perspectives from characters**:
 
    ```
-   /homer "What are we building?"    # Asks dumb-smart questions
-   /lisa "Design the architecture"   # Creates structured plans
-   /bart "What could go wrong?"      # Identifies edge cases
+   /homer "What are we building?"    # Dumb-smart questions that reveal assumptions
+   /lisa "Design the architecture"   # Synthesizes into structured plans
+   /bart "What could go wrong?"      # Chaos engineering and edge cases
+   /marge "Organize this mess"       # Brings structure and assigns responsibility
    ```
 
 3. **Check your progress**:
@@ -51,41 +81,41 @@ npm run build
 
 ## Character Roster
 
-### Simpson Family (Core Planning)
+### The Simpson Family (Core Thinking Tools)
 
-| Character | Command | Role | Artifact |
-|-----------|---------|------|----------|
-| Homer | `/homer` | Dumb-smart questions that reveal hidden assumptions | `questions.md` |
-| Marge | `/marge` | Organization and structure, motherly oversight | `structure.md` |
-| Bart | `/bart` | Chaos engineering, edge cases, breaking things | `edge-cases.md` |
-| Lisa | `/lisa` | Architecture, planning, initiates Ralph | `project.md`, `task.md` |
-| Maggie | `/maggie` | Silent logging, status codes via *squeak* | `logging.md` |
+| Character | Command | Perspective | What They Produce |
+|-----------|---------|-------------|-------------------|
+| **Homer** | `/homer` | The Innocent - beginner's mind that cuts through complexity | `questions.md` |
+| **Lisa** | `/lisa` | The Conductor - synthesis and principled planning | `project.md`, `task.md` |
+| **Bart** | `/bart` | The Trickster - chaos that reveals hidden fragility | `edge-cases.md` |
+| **Marge** | `/marge` | The Keeper - organization that prevents entropy | `structure.md` |
+| **Maggie** | `/maggie` | The Witness - silent observation and logging | `logging.md` |
 
-### Extended Family
+### Extended Family (Strategic Perspectives)
 
-| Character | Command | Role | Artifact |
-|-----------|---------|------|----------|
-| Grampa | `/grampa` | Historical context, rambling stories with wisdom | `history.md` |
-| Mr. Burns | `/burns` | Budget constraints, resource allocation | `budget.md` |
-| Smithers | `/smithers` | Schedule management, Burns interpreter | `schedule.md` |
-| Flanders | `/flanders` | Coding standards, neighborly best practices | `standards.md` |
+| Character | Command | Perspective | What They Produce |
+|-----------|---------|-------------|-------------------|
+| **Grampa** | `/grampa` | The Elder - history and buried wisdom | `history.md` |
+| **Burns** | `/burns` | The King - resources and ROI justification | `budget.md` |
+| **Smithers** | `/smithers` | The Seneschal - execution and scheduling | `schedule.md` |
+| **Flanders** | `/flanders` | The Priest - standards and quality | `standards.md` |
 
-### Springfield Specialists
+### Springfield Citizens (Specialized Perspectives)
 
-| Character | Command | Role | Artifact |
-|-----------|---------|------|----------|
-| Milhouse | `/milhouse` | Dependency management, gets hurt first | `dependencies.md` |
-| Moe | `/moe` | Depressed debugging, stack traces | `debug-notes.md` |
-| Chief Wiggum | `/wiggum` | Ironic security review | `security-review.md` |
-| Ralph | `/ralph` | The executor (Lisa only) | execution |
-| Krusty | `/krusty` | Demo preparation, showmanship | `demo.md` |
-| Sideshow Bob | `/bob` | Adversarial analysis, sophisticated testing | `adversarial.md` |
+| Character | Command | Perspective | What They Produce |
+|-----------|---------|-------------|-------------------|
+| Milhouse | `/milhouse` | Dependency management | `dependencies.md` |
+| Moe | `/moe` | Debugging and stack traces | `debug-notes.md` |
+| Wiggum | `/wiggum` | Security review | `security-review.md` |
+| Nelson | `/nelson` | Test failures | `tests.md` |
+| Apu | `/apu` | Utility functions | `utilities.md` |
+| Frink | `/frink` | Experimental R&D | `experiments.md` |
+| CBG | `/cbg` | Documentation review | `docs-review.md` |
+| Willie | `/willie` | Infrastructure/DevOps | `infrastructure.md` |
+| Krusty | `/krusty` | Demo preparation | `demo.md` |
+| Bob | `/bob` | Adversarial analysis | `adversarial.md` |
 | Skinner | `/skinner` | Timeline management | `timeline.md` |
-| Nelson | `/nelson` | Test failures, "Ha-ha!" | `tests.md` |
-| Apu | `/apu` | 24/7 utility functions | `utilities.md` |
-| Professor Frink | `/frink` | Experimental R&D, "Glavin!" | `experiments.md` |
-| Comic Book Guy | `/cbg` | Documentation review, "Worst X ever" | `docs-review.md` |
-| Groundskeeper Willie | `/willie` | Infrastructure, DevOps | `infrastructure.md` |
+| **Ralph** | (Lisa only) | The Executor | execution |
 
 ## The Lisa-Ralph Protocol
 
@@ -109,22 +139,29 @@ Before Ralph can execute, these files must be complete in `.springfield/`:
 
 ### The Ralph Gate
 
-Direct `/ralph` invocations are blocked by the ralph-gate hook. When blocked, Ralph responds with confused messages:
+Direct `/ralph` invocations are blocked by the ralph-gate hook. This ensures the planning process is complete before execution begins.
 
-> *picks nose*
-> Hi Lisa! Where's Lisa? Lisa tells me what to do.
+## Milestone Celebrations
 
-This ensures the planning process is complete before execution begins.
+Springfield Code celebrates your progress:
+
+- **10 commands** - Chief Wiggum notices
+- **50 commands** - You're a regular at Moe's
+- **100 commands** - Burns marks you for the loyalty program
+- **250 commands** - Lisa plays a triumphant saxophone riff
+- **500 commands** - The entire Simpson family gathers
+- **1000 commands** - You're declared a citizen of Springfield
 
 ## Commands
 
 | Command | Description |
 |---------|-------------|
-| `/springfield init` | Initialize Springfield environment |
+| `/springfield init` | Initialize Springfield (Troy McClure welcomes you) |
 | `/springfield status` | Check planning status and Ralph readiness |
 | `/springfield reset` | Reset and reinitialize |
-| `/[character]` | Summon any character for planning |
+| `/[character]` | Summon any character for their perspective |
 | `/lisa ralph` | Initiate the Ralph loop (after planning) |
+| `/stats` | View your usage statistics |
 
 ## Project Structure
 
@@ -135,10 +172,30 @@ your-project/
 │   ├── task.md             # Current task for Ralph
 │   ├── completion.md       # Completion criteria
 │   ├── iterations.md       # Iteration configuration
-│   ├── questions.md        # Homer's questions
-│   ├── structure.md        # Marge's organization
-│   ├── edge-cases.md       # Bart's chaos
-│   └── ...                 # Other character artifacts
+│   ├── stats.json          # Usage statistics
+│   └── [character].md      # Character-specific artifacts
+```
+
+## The Philosophy
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│              THE SPRINGFIELD CODE MANIFESTO                  │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│  1. WORK CAN BE PLAY                                         │
+│     Entertainment isn't distraction - it's fuel.             │
+│                                                              │
+│  2. CHARACTERS ARE PERSPECTIVES                              │
+│     Every character sees what others miss.                   │
+│                                                              │
+│  3. NOSTALGIA IS A FEATURE                                   │
+│     35 years of shared memory is powerful.                   │
+│                                                              │
+│  4. QUALITY COMES FROM JOY                                   │
+│     When developers enjoy their tools, work improves.        │
+│                                                              │
+└─────────────────────────────────────────────────────────────┘
 ```
 
 ## Dependencies
@@ -150,6 +207,15 @@ your-project/
 
 MIT
 
+## Attribution
+
+This is a fan-made tool inspired by The Simpsons. The Simpsons, its characters, and related marks are registered trademarks of 20th Television and The Walt Disney Company. This project is not affiliated with, endorsed by, or sponsored by 20th Television or The Walt Disney Company.
+
 ## Author
 
 THOC-LABS (<contact@thoc-labs.ai>)
+
+---
+
+*"The app doesn't do one thing. It does different things for different people. And that's the point."*
+*- Homer Simpson, Pacific Coast Highway*

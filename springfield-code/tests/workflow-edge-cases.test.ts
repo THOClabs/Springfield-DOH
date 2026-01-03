@@ -405,8 +405,8 @@ describe('Workflow Edge Cases - Springfield Init Flow', () => {
 
   it('init should show next steps', async () => {
     const result = await springfieldCommand.run(['init'], { cwd: testDir });
-    expect(result).toContain('Next steps');
-    expect(result).toContain('Edit the files');
+    expect(result).toContain('Next, try:');
+    expect(result).toContain('/homer');
   });
 
   it('init should create project.md with template', async () => {

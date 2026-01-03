@@ -2,13 +2,22 @@
  * Local Usage Statistics
  * Tracks character invocation counts in .springfield/stats.json
  * No network calls - file-based only for privacy
- * 
+ *
  * @module utils/stats
  */
 
 import * as fs from "fs";
 import * as path from "path";
 import { SPRINGFIELD_DIR, ALL_CHARACTERS, CHARACTER_TIERS } from "../constants.js";
+import {
+  loadAchievements,
+  saveAchievements,
+  syncWithStats,
+  formatCompactAchievements,
+  formatNewUnlocks,
+  type AchievementCheckResult,
+} from "../achievements/index.js";
+import { isPrivateModeEnabled } from "./private-mode.js";
 
 /**
  * Statistics data structure
@@ -143,11 +152,119 @@ function getCharacterTier(character: string): keyof UsageStats["tiers"] | null {
 }
 
 /**
- * Record a character invocation
+ * Milestone celebration messages per delight-moments.md
  */
-export function recordInvocation(projectDir: string, character: string): boolean {
+const MILESTONES: Record<number, string> = {
+  10: `*Chief Wiggum steps forward*
+
+You've run 10 Springfield commands!
+
+Chief Wiggum: "That's 10 more than I've run in my whole career.
+              And I'm in charge of security."
+
+*waddles away*`,
+
+  50: `*Moe polishes a glass*
+
+50 commands! You're becoming a regular.
+
+Moe: "Uh, yeah. 50. That's... that's a lot.
+      You want a drink or something?
+      ...I don't have drinks. I have edge cases."`,
+
+  100: `*Burns steeples fingers*
+
+One hundred commands! You're a Springfield veteran now.
+
+Burns: "Excellent... A power user emerges.
+       Smithers, mark this one for the loyalty program."
+
+*confetti falls*`,
+
+  250: `*Lisa plays a triumphant saxophone riff*
+
+250 commands! You've truly embraced multi-perspective thinking.
+
+Lisa: "You've talked to almost everyone in Springfield.
+      Each character is a lens. You're seeing clearly now."`,
+
+  500: `*The entire Simpson family gathers*
+
+500 COMMANDS! You're a Springfield legend!
+
+Homer: "Woohoo! 500! That's like... a lot of donuts!"
+Marge: "We're so proud of you, sweetie."
+Bart: "Ay caramba, even I'm impressed."
+Lisa: "You've really committed to thoughtful planning."
+Maggie: *squeak squeak* (Translation: legendary)`,
+
+  1000: `*Fireworks explode over Springfield*
+
+🎉 ONE THOUSAND COMMANDS! 🎉
+
+*The entire town of Springfield applauds*
+
+Mayor Quimby: "I hereby declare this user an
+              official citizen of Springfield!"
+
+Burns: "One thousand... most excellent."
+Homer: "D'oh! I mean... Woohoo!"
+Lisa: "This is what dedication looks like."
+
+You've reached the pinnacle of Springfield Code mastery.`,
+};
+
+/**
+ * Check if a milestone was just reached and return celebration message
+ */
+export function checkMilestone(previousTotal: number, newTotal: number): string | null {
+  for (const milestone of Object.keys(MILESTONES).map(Number).sort((a, b) => a - b)) {
+    if (previousTotal < milestone && newTotal >= milestone) {
+      return MILESTONES[milestone];
+    }
+  }
+  return null;
+}
+
+/**
+ * Result of recording an invocation
+ */
+export interface InvocationResult {
+  /** Whether stats were saved successfully */
+  success: boolean;
+  /** Milestone celebration message (if threshold crossed) */
+  milestone: string | null;
+  /** Newly unlocked achievement IDs */
+  achievements: string[];
+  /** Whether private mode prevented stats tracking */
+  privateMode: boolean;
+}
+
+/**
+ * Record a character invocation
+ * Returns milestone celebration message if a threshold was crossed
+ * Also updates achievements and respects private mode
+ */
+export function recordInvocation(
+  projectDir: string,
+  character: string
+): InvocationResult {
+  // Check private mode first
+  if (isPrivateModeEnabled(projectDir)) {
+    return {
+      success: true,
+      milestone: null,
+      achievements: [],
+      privateMode: true,
+    };
+  }
+
   const stats = loadStats(projectDir);
-  if (!stats) return false;
+  if (!stats) {
+    return { success: false, milestone: null, achievements: [], privateMode: false };
+  }
+
+  const previousTotal = stats.totalInvocations;
 
   // Increment character count
   if (character in stats.characters) {
@@ -165,7 +282,33 @@ export function recordInvocation(projectDir: string, character: string): boolean
   // Increment total
   stats.totalInvocations++;
 
-  return saveStats(projectDir, stats);
+  const success = saveStats(projectDir, stats);
+  const milestone = checkMilestone(previousTotal, stats.totalInvocations);
+
+  // Update achievements
+  const newAchievements: string[] = [];
+  try {
+    const achievementState = loadAchievements(projectDir);
+    const results = syncWithStats(achievementState, {
+      totalInvocations: stats.totalInvocations,
+      characterCounts: stats.characters,
+    });
+
+    // Collect newly unlocked achievements
+    for (const result of results) {
+      if (result.newlyUnlocked) {
+        newAchievements.push(result.achievementId);
+      }
+    }
+
+    if (results.length > 0) {
+      saveAchievements(projectDir, achievementState);
+    }
+  } catch {
+    // Achievement tracking failure shouldn't break stats
+  }
+
+  return { success, milestone, achievements: newAchievements, privateMode: false };
 }
 
 /**
@@ -187,7 +330,7 @@ export function getTopCharacters(projectDir: string, n = 10): Array<{ character:
  */
 export function formatStatsReport(projectDir: string): string {
   const stats = loadStats(projectDir);
-  
+
   if (!stats) {
     return `# Usage Statistics
 
@@ -209,6 +352,20 @@ Start summoning characters to build your stats!
     .map((tc, i) => `${i + 1}. \`${tc.character}\` - ${tc.count} invocations`)
     .join("\n");
 
+  // Get achievement summary
+  let achievementSection = "";
+  try {
+    const achievementState = loadAchievements(projectDir);
+    achievementSection = `
+
+## Achievements
+
+${formatCompactAchievements(achievementState, 5)}
+`;
+  } catch {
+    // Skip achievements section if unavailable
+  }
+
   return `# Usage Statistics
 
 **Total Invocations:** ${stats.totalInvocations}
@@ -227,7 +384,7 @@ Start summoning characters to build your stats!
 ## Top Characters
 
 ${topCharsList || "*No characters invoked yet*"}
-`;
+${achievementSection}`;
 }
 
 /**
@@ -241,4 +398,14 @@ export function resetStats(projectDir: string): boolean {
 
   const emptyStats = createEmptyStats();
   return saveStats(projectDir, emptyStats);
+}
+
+/**
+ * Format achievement celebration messages for newly unlocked achievements
+ * @param achievementIds - IDs of newly unlocked achievements
+ * @returns Formatted celebration string
+ */
+export function formatAchievementCelebrations(achievementIds: string[]): string {
+  if (achievementIds.length === 0) return "";
+  return formatNewUnlocks(achievementIds);
 }

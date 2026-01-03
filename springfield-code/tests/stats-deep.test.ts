@@ -242,13 +242,16 @@ describe("recordInvocation Function", () => {
     fs.rmSync(tempDir, { recursive: true, force: true });
   });
 
-  it("returns false when Springfield directory does not exist", () => {
+  it("returns success: false when Springfield directory does not exist", () => {
     const noDir = path.join(tempDir, "nonexistent");
-    expect(recordInvocation(noDir, "homer")).toBe(false);
+    const result = recordInvocation(noDir, "homer");
+    expect(result.success).toBe(false);
+    expect(result.milestone).toBeNull();
   });
 
-  it("returns true on successful recording", () => {
-    expect(recordInvocation(tempDir, "homer")).toBe(true);
+  it("returns success: true on successful recording", () => {
+    const result = recordInvocation(tempDir, "homer");
+    expect(result.success).toBe(true);
   });
 
   it("increments character count", () => {

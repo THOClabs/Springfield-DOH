@@ -60,6 +60,14 @@ export { default as summonBatchCommand } from "./commands/summon-batch.js";
 export { default as statsCommand } from "./commands/stats.js";
 export { default as cancelRalphCommand } from "./commands/cancel-ralph.js";
 
+// Veterans Lounge (Sprint 3 - D1)
+export {
+  default as veteransLoungeCommand,
+  isVeteran,
+  getVeteranProgress,
+  VETERAN_THRESHOLD,
+} from "./commands/veterans-lounge.js";
+
 // Hooks - v3.0.0: Secure token-based API only
 // See CHANGELOG.md and MIGRATION.md for migration guide from v2.x
 export {
@@ -81,16 +89,32 @@ export * from "./constants.js";
 // Artifacts
 export { generateArtifact, artifactExists } from "./artifacts/generator.js";
 
-// Stats (v2.2.0)
-export { 
-  loadStats, 
-  saveStats, 
-  recordInvocation, 
-  getTopCharacters, 
+// Stats (v2.2.0, updated Sprint 3)
+export {
+  loadStats,
+  saveStats,
+  recordInvocation,
+  getTopCharacters,
   formatStatsReport,
   resetStats,
+  formatAchievementCelebrations,
   type UsageStats,
+  type InvocationResult,
 } from "./utils/stats.js";
+
+// Private Mode (Sprint 3 - D2)
+export {
+  isPrivateModeEnabled,
+  enablePrivateMode,
+  disablePrivateMode,
+  getPrivateModeStatus,
+  getArtifactDirectory,
+  hasPrivateFlag,
+  getPrivateModeIndicator,
+  formatPrivateModeStatus,
+  PRIVATE_DIR,
+  type PrivateModeState,
+} from "./utils/private-mode.js";
 
 // Validation utilities (v3.0.0)
 export {
@@ -135,9 +159,64 @@ export {
   type SkillRegistryState,
 } from "./skills/index.js";
 
+// Easter Eggs (Sprint 3 - D3)
+export {
+  checkActiveEasterEgg,
+  getEasterEggMessage,
+  formatEasterEggPrefix,
+  getAllEasterEggs,
+  getEasterEggById,
+  type EasterEggEvent,
+} from "./utils/easter-eggs.js";
+
+// Rare Events (Sprint 3 - D4)
+export {
+  checkRareEvent,
+  formatRareEventSuffix,
+  getAllRareEvents,
+  getRareEventById,
+  _setTestSeed,
+  _getTestSeed,
+  type RareEvent,
+  type RareEventResult,
+} from "./utils/rare-events.js";
+
+// Response Enhancer (Sprint 3)
+export {
+  calculateEnhancements,
+  applyEnhancements,
+  enhanceResponse,
+  hasActiveEnhancements,
+  getEnhancementStatus,
+  DEFAULT_ENHANCEMENT_CONFIG,
+  type EnhancementConfig,
+  type EnhancementResult,
+} from "./utils/response-enhancer.js";
+
+// Achievement System (Sprint 3 - D6)
+export * from "./achievements/index.js";
+
+// Demo Kit (Sprint 3 - D5)
+export {
+  runScenario,
+  runMultipleScenarios,
+  listScenarios,
+  findScenario,
+  parseDemoArgs,
+  getDemoHelp,
+  getAllScenarios,
+  getScenarioById,
+  getScenarioBySlug,
+  TOTAL_SCENARIOS,
+  type DemoScenario,
+  type DemoStep,
+  type DemoRunOptions,
+  type DemoRunResult,
+} from "./demo/index.js";
+
 // Plugin metadata - version synced with package.json
 export const PLUGIN_INFO = {
   name: "springfield-code",
-  version: "3.0.2",
+  version: "3.0.3",
   description: "Simpsons-themed vibe coding environment for Claude Code",
 };

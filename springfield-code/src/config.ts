@@ -9,6 +9,9 @@
 
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+import { createLogger } from "./utils/logger.js";
+
+const logger = createLogger("CONFIG");
 
 /**
  * Configuration options for Springfield Code
@@ -87,8 +90,17 @@ function parseValue(
     case "maxTokensPerMinute":
     case "rateLimitWindowMs":
     case "minContentLength":
-    case "defaultMaxIterations":
-      return parseInt(value, 10);
+    case "defaultMaxIterations": {
+      const parsed = parseInt(value, 10);
+      if (isNaN(parsed)) {
+        logger.warn(`Invalid numeric value for ${key}`, {
+          received: value,
+          usingDefault: DEFAULT_CONFIG[key],
+        });
+        return DEFAULT_CONFIG[key];
+      }
+      return parsed;
+    }
     case "logLevel":
       if (["debug", "info", "warn", "error", "silent"].includes(value)) {
         return value as SpringfieldConfig["logLevel"];
@@ -115,8 +127,11 @@ function loadConfigFile(cwd: string = process.cwd()): Partial<SpringfieldConfig>
       try {
         const content = readFileSync(configPath, "utf-8");
         return JSON.parse(content) as Partial<SpringfieldConfig>;
-      } catch {
-        // Invalid JSON, skip this file
+      } catch (error) {
+        logger.error("Failed to parse config file", {
+          configPath,
+          error: error instanceof Error ? error.message : String(error),
+        });
         continue;
       }
     }
@@ -152,11 +167,21 @@ export function getConfig(cwd: string = process.cwd()): SpringfieldConfig {
   const fileConfig = loadConfigFile(cwd);
   const envConfig = loadEnvConfig();
 
-  return {
+  const config = {
     ...DEFAULT_CONFIG,
     ...fileConfig,
     ...envConfig,
   };
+
+  // Validate configuration (advisory, not blocking)
+  const validationErrors = validateConfig(config);
+  if (validationErrors.length > 0) {
+    logger.warn("Configuration validation issues", {
+      errors: validationErrors,
+    });
+  }
+
+  return config;
 }
 
 /**

@@ -11,6 +11,7 @@
 import { randomBytes } from "crypto";
 import { ralphGateLogger as logger } from "../utils/logger.js";
 import { getCachedConfig } from "../config.js";
+import { isRalphTool } from "../utils/normalization.js";
 
 // ============================================================================
 // Types
@@ -349,11 +350,9 @@ interface HookResult {
  * Intercepts Ralph-related tool calls and validates authorization
  */
 async function handle(event: HookEvent, _context: HookContext): Promise<HookResult> {
-  // Case-insensitive tool name matching to prevent bypass
-  const toolName = event.toolName.toLowerCase();
-
-  // Check if this is a Ralph-related tool
-  if (toolName === "ralph-loop" || toolName === "ralph") {
+  // Use normalizeToolName to prevent bypass via underscores, unicode, or case variations
+  // See: .springfield/adversarial.md for attack vectors this defends against
+  if (isRalphTool(event.toolName)) {
     if (!activeRalphToken) {
       return {
         allowed: false,

@@ -7,6 +7,14 @@ import * as fs from "fs";
 import * as path from "path";
 import { SPRINGFIELD_DIR, REQUIRED_FILES } from "../constants.js";
 import { getCachedConfig } from "../config.js";
+import { run as veteransLoungeRun } from "./veterans-lounge.js";
+import {
+  enablePrivateMode,
+  disablePrivateMode,
+  getPrivateModeStatus,
+  formatPrivateModeStatus,
+} from "../utils/private-mode.js";
+import { handleDemo } from "./demo.js";
 
 interface CommandContext {
   cwd?: string;
@@ -28,6 +36,17 @@ function drawBox(title: string, content: string[]): string {
   });
 
   return [top, titleLine, separator, ...lines, bottom].join("\n");
+}
+
+/**
+ * Troy McClure onboarding messages
+ */
+function getTroyMcClureWelcome(): string {
+  return `*adjusts hair, checks teeth in mirror*
+
+Hi! I'm Troy McClure! You may remember me from such CLI tools as "Git But Fun" and "Your First Terraform Apply."
+
+Welcome to Springfield Code! Let me show you what just happened:`;
 }
 
 /**
@@ -56,22 +75,31 @@ async function handleInit(projectDir: string): Promise<string> {
     fs.writeFileSync(filePath, file.content, "utf-8");
   }
 
+  // Troy McClure onboarding per experience-journey.md
+  const troyWelcome = getTroyMcClureWelcome();
+
   const content = [
     "",
-    ".springfield/",
-    "├── project.md      ← Define what you're building",
-    "├── task.md         ← Define the current task",
-    "├── completion.md   ← Define done criteria",
-    "└── iterations.md   ← Configure max iterations",
+    "Created .springfield/",
+    "├── project.md     ← Define what you're building",
+    "├── task.md        ← Track current work",
+    "├── completion.md  ← Know when you're done",
+    "└── iterations.md  ← Prevent scope creep",
     "",
-    "Next steps:",
-    "1. Edit the files above with your project details",
-    "2. Use /homer, /lisa, /bart etc. for planning",
-    "3. Run /springfield status to check progress",
-    "4. When ready, use /lisa ralph to execute",
+    "Next, try:",
+    "• /homer \"What is [your project]?\"",
+    "  Get questions you forgot to ask",
+    "",
+    "• /marge - See your project's organization",
+    "",
+    "• /lisa - Begin comprehensive planning",
+    "",
+    "The citizens of Springfield are ready to help!",
   ];
 
-  return drawBox("SPRINGFIELD CODE INITIALIZED", content);
+  const boxContent = drawBox("SPRINGFIELD CODE INITIALIZED", content);
+
+  return `${troyWelcome}\n\n${boxContent}`;
 }
 
 /**
@@ -147,6 +175,36 @@ async function handleReset(projectDir: string): Promise<string> {
 }
 
 /**
+ * Handle private mode toggle
+ */
+async function handlePrivateMode(
+  projectDir: string,
+  args: string[]
+): Promise<string> {
+  const [action] = args;
+
+  switch (action?.toLowerCase()) {
+    case "on":
+    case "enable": {
+      const state = enablePrivateMode(projectDir);
+      return formatPrivateModeStatus(state);
+    }
+
+    case "off":
+    case "disable": {
+      const state = disablePrivateMode(projectDir);
+      return formatPrivateModeStatus(state);
+    }
+
+    case "status":
+    default: {
+      const state = getPrivateModeStatus(projectDir);
+      return formatPrivateModeStatus(state);
+    }
+  }
+}
+
+/**
  * Get help text
  */
 function getHelpText(): string {
@@ -154,9 +212,12 @@ function getHelpText(): string {
 Springfield Code - Simpsons-themed vibe coding environment
 
 Commands:
-  /springfield init    Initialize Springfield in current directory
-  /springfield status  Show current planning status
-  /springfield reset   Delete and reinitialize Springfield
+  /springfield init           Initialize Springfield in current directory
+  /springfield status         Show current planning status
+  /springfield reset          Delete and reinitialize Springfield
+  /springfield private-mode   Toggle private mode (no stats tracking)
+  /springfield veterans-lounge  Power user features (unlocks at 100 commands)
+  /springfield demo           Run demo scenarios
 
 Usage:
   1. Run /springfield init to create .springfield/ directory
@@ -263,6 +324,14 @@ export async function run(
       return await handleStatus(projectDir);
     case "reset":
       return await handleReset(projectDir);
+    case "private-mode":
+    case "private":
+      return await handlePrivateMode(projectDir, args.slice(1));
+    case "veterans-lounge":
+    case "veterans":
+      return await veteransLoungeRun(args.slice(1), context);
+    case "demo":
+      return await handleDemo(args.slice(1));
     default:
       return getHelpText();
   }

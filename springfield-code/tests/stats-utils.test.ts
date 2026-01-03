@@ -14,6 +14,7 @@ import {
   getTopCharacters,
   formatStatsReport,
   resetStats,
+  checkMilestone,
 } from "../src/utils/stats.js";
 import type { UsageStats } from "../src/utils/stats.js";
 
@@ -179,9 +180,10 @@ describe("stats.ts utilities", () => {
   });
 
   describe("recordInvocation", () => {
-    it("returns false when springfield directory does not exist", () => {
+    it("returns success: false when springfield directory does not exist", () => {
       const result = recordInvocation(tempDir, "homer");
-      expect(result).toBe(false);
+      expect(result.success).toBe(false);
+      expect(result.milestone).toBeNull();
     });
 
     it("records invocation for existing character", () => {
@@ -234,14 +236,44 @@ describe("stats.ts utilities", () => {
 
     it("does not increment tier count for unknown character", () => {
       fs.mkdirSync(springfieldDir, { recursive: true });
-      
+
       recordInvocation(tempDir, "not_a_real_character");
-      
+
       const stats = loadStats(tempDir);
       expect(stats!.tiers.simpson_family).toBe(0);
       expect(stats!.tiers.extended).toBe(0);
       expect(stats!.tiers.springfield).toBe(0);
       expect(stats!.tiers.specialists).toBe(0);
+    });
+  });
+
+  describe("checkMilestone", () => {
+    it("returns null when no milestone crossed", () => {
+      expect(checkMilestone(5, 6)).toBeNull();
+      expect(checkMilestone(11, 15)).toBeNull();
+    });
+
+    it("returns celebration for 10th command milestone", () => {
+      const message = checkMilestone(9, 10);
+      expect(message).toContain("10 Springfield commands");
+      expect(message).toContain("Chief Wiggum");
+    });
+
+    it("returns celebration for 100th command milestone", () => {
+      const message = checkMilestone(99, 100);
+      expect(message).toContain("One hundred commands");
+      expect(message).toContain("Burns");
+    });
+
+    it("returns celebration when jumping over milestone", () => {
+      const message = checkMilestone(8, 12);
+      expect(message).toContain("10 Springfield commands");
+    });
+
+    it("returns lowest milestone when crossing multiple", () => {
+      // If somehow we jump from 5 to 105, should still get milestone 10 first
+      const message = checkMilestone(5, 105);
+      expect(message).toContain("10 Springfield commands");
     });
   });
 

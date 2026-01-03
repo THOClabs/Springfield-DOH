@@ -7,6 +7,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
 import { CHARACTER_ARTIFACTS, ALL_CHARACTERS } from "../constants.js";
+import { logCatchError } from "../utils/error-logging.js";
 
 // ESM-compatible __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -51,7 +52,13 @@ function loadAgentDefinition(character: string): string | null {
 
   try {
     return fs.readFileSync(agentPath, "utf-8");
-  } catch /* istanbul ignore next -- @preserve Cannot mock fs.readFileSync in ESM */ {
+  } catch (error) /* istanbul ignore next -- @preserve Cannot mock fs.readFileSync in ESM */ {
+    logCatchError(error, {
+      operation: "loadAgentDefinition",
+      module: "SUMMON",
+      character,
+      agentPath,
+    });
     return null;
   }
 }

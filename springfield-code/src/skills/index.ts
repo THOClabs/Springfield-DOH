@@ -10,6 +10,7 @@
 
 import * as fs from "fs";
 import * as path from "path";
+import { logCatchError } from "../utils/error-logging.js";
 import type {
   Skill,
   SkillMetadata,
@@ -153,7 +154,12 @@ export function registerSkillFromFile(
   try {
     const content = fs.readFileSync(filePath, "utf-8");
     return registerSkill(content, { ...options, source: filePath });
-  } catch {
+  } catch (error) {
+    logCatchError(error, {
+      operation: "registerSkillFromFile",
+      module: "SKILLS",
+      skillPath: filePath,
+    });
     return null;
   }
 }
