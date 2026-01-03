@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Springfield VR - Immersive Problem-Solving</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      html, body, #root {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #000;
+      }
+      
+      .loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        z-index: 1000;
+      }
+      
+      .loading-screen h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: #ffd700;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+      }
+      
+      .loading-screen p {
+        font-size: 1.2rem;
+        opacity: 0.8;
+        margin-bottom: 2rem;
+      }
+      
+      .loading-spinner {
+        width: 60px;
+        height: 60px;
+        border: 4px solid rgba(255,215,0,0.3);
+        border-top: 4px solid #ffd700;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      .problem-input {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        z-index: 900;
+      }
+      
+      .problem-input h1 {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+        color: #ffd700;
+      }
+      
+      .problem-input .tagline {
+        font-size: 1rem;
+        opacity: 0.7;
+        margin-bottom: 2rem;
+      }
+      
+      .problem-input textarea {
+        width: 80%;
+        max-width: 600px;
+        height: 150px;
+        padding: 1rem;
+        font-size: 1.1rem;
+        border: 2px solid rgba(255,215,0,0.5);
+        border-radius: 8px;
+        background: rgba(255,255,255,0.1);
+        color: white;
+        resize: none;
+        margin-bottom: 1rem;
+      }
+      
+      .problem-input textarea::placeholder {
+        color: rgba(255,255,255,0.5);
+      }
+      
+      .problem-input textarea:focus {
+        outline: none;
+        border-color: #ffd700;
+        box-shadow: 0 0 20px rgba(255,215,0,0.3);
+      }
+      
+      .problem-input button {
+        padding: 1rem 3rem;
+        font-size: 1.2rem;
+        background: #ffd700;
+        color: #1a1a2e;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s ease;
+      }
+      
+      .problem-input button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 30px rgba(255,215,0,0.5);
+      }
+      
+      .vr-button {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        padding: 1rem 2rem;
+        background: rgba(255,215,0,0.9);
+        color: #1a1a2e;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        z-index: 100;
+        transition: all 0.3s ease;
+      }
+      
+      .vr-button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(255,215,0,0.5);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <!-- React app mounts here -->
+      
+      <!-- Initial Loading Screen (replaced by React) -->
+      <div class="loading-screen" id="initial-loading">
+        <h1>🍩 SPRINGFIELD VR</h1>
+        <p>"I'm helping!" - Ralph Wiggum</p>
+        <div class="loading-spinner"></div>
+      </div>
+    </div>
+    
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
